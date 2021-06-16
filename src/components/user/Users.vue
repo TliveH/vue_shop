@@ -35,7 +35,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <!--      修改      -->
-            <el-tooltip effect="dark" content="修改" placement="top" :enterable="false">
+            <el-tooltip effect="dark" content="编辑" placement="top" :enterable="false">
               <el-button type="primary" icon="el-icon-edit" size="mini"
                          @click="showEditDialog(scope.row.id)"></el-button>
             </el-tooltip>
@@ -68,7 +68,7 @@
     <!--  添加用户对话框  -->
     <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="40%" @close="addDialogClosed">
       <!--   内容   -->
-      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="addForm.username"></el-input>
         </el-form-item>
@@ -90,7 +90,7 @@
     </el-dialog>
     <!--  修改用户的对话框  -->
     <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="40%" @close="editDialogClosed">
-      <el-form :model="editForm" :rules="addFormRules" ref="editFormRef" label-width="70px">
+      <el-form :model="editForm" :rules="addFormRules" ref="editFormRef" label-width="100px">
         <el-form-item label="用户名">
           <el-input v-model="editForm.username" disabled></el-input>
         </el-form-item>
@@ -181,7 +181,7 @@
           email: '',
           mobile: ''
         },
-        //添加表单的验证规则对象
+        //添加用户表单的验证规则对象
         addFormRules: {
           username: [
             {required: true, message: '请输入用户名', trigger: 'blur'},
@@ -278,7 +278,6 @@
           }
           this.editForm = res.data
         })
-
         this.editDialogVisible = !this.editDialogVisible
       },
       //监听修改用户对话框的关闭
@@ -291,7 +290,7 @@
           if (!valid) return
           //发起修改用户的网络请求
           editUserInfo(this.editForm).then(res => {
-            console.log(res)
+            // console.log(res)
             if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
             //关闭对话框
             this.editDialogVisible = false
@@ -340,7 +339,7 @@
           return this.$message.error('请选择要分配的角色')
         }
         saveRoleInfo(this.userInfo, this.selectRoleId).then(res => {
-          console.log(res)
+          // console.log(res)
           if (res.meta.status !== 200) {
             return this.$message.error(res.meta.msg)
           }
