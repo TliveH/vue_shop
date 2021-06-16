@@ -59,3 +59,14 @@ export function removeUserById(id) {
     method: 'delete'
   }).catch(err => err)
 }
+
+//分配角色的请求
+export function saveRoleInfo(userInfo, selectRoleId) {
+  return request({
+    url: `users/${userInfo.id}/role`,
+    method: 'put',
+    data: {
+      rid: selectRoleId
+    }
+  }).catch(err => err)
+}
