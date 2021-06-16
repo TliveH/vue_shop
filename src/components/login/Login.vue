@@ -61,7 +61,7 @@
         this.$refs.loginFormRef.validate(valid => {
           if(!valid) return ;
           Login(this.loginForm).then(res=>{
-            console.log(res)
+            // console.log(res)
             if(res.meta.status!==200)return this.$message.error('登陆失败')
             this.$message.success('登陆成功')
             //将登陆成功后的token保存到sessionStorage
