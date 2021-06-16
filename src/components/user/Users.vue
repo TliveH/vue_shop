@@ -168,7 +168,7 @@
           //当前页数
           pagenum: 1,
           //当前每页显示数据
-          pagesize: 10
+          pagesize: 5
         },
         userList: [],
         total: 0,

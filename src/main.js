@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import element from 'element-ui'
+import TreeTable from 'vue-table-with-tree-grid'
 
 
 //导入全局样式表
@@ -15,6 +16,8 @@ import './assets/img/fonts/iconfont.css'
 Vue.config.productionTip = false
 
 Vue.use(element)
+
+Vue.component('tree-table',TreeTable)
 
 
 new Vue({
