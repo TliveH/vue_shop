@@ -172,7 +172,7 @@
         //控制修改角色对话框的显示与隐藏
         editRoleDialogVisible: false,
         //修改角色的表单数据
-        editRoleForm: {}
+        editRoleForm: {},
       }
     },
     created() {

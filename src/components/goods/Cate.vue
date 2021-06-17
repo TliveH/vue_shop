@@ -30,8 +30,14 @@
         </template>
         <!--    操作    -->
         <template slot="opt" slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
-          <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+          <!--      编辑      -->
+          <el-tooltip effect="dark" content="编辑" placement="top" :enterable="false">
+            <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+          </el-tooltip>
+          <!--      删除      -->
+          <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
+            <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+          </el-tooltip>
         </template>
       </tree-table>
       <!--   分页   -->
@@ -123,7 +129,7 @@
         //添加分类表单的验证规则
         addCateFormRules: {
           cat_name: [
-            {required: true, message: '请输入分类名称', trigger: 'blur'},
+            {required: true, message: '请输入分类名称', trigger: 'blur'}
           ]
         },
         //父级分类的列表
