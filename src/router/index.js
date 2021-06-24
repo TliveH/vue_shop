@@ -48,6 +48,14 @@ const routes = [
       {
         path: '/goods/addGoods',
         component:()=>import('../components/goods/AddGoods')
+      },
+      {
+        path: '/orders',
+        component:()=>import('../components/order/Order')
+      },
+      {
+        path: '/reports',
+        component:()=>import('../components/report/Report')
       }
     ]
   }
@@ -63,6 +71,7 @@ router.beforeEach((to, from, next) => {
   const tokenStr = window.sessionStorage.getItem('token')
   //没有token强制跳转到login
   if (!tokenStr) return next('/login')
+  // document.title='系统--'+to.meta.title
   next()
 })
 

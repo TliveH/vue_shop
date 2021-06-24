@@ -32,11 +32,13 @@
         <template slot="opt" slot-scope="scope">
           <!--      编辑      -->
           <el-tooltip effect="dark" content="编辑" placement="top" :enterable="false">
-            <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini"
+                       @click="showEditDialog(scope.row.cat_id)"></el-button>
           </el-tooltip>
           <!--      删除      -->
           <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
-            <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini"
+                       @click="removeCateById(scope.row.cat_id)"></el-button>
           </el-tooltip>
         </template>
       </tree-table>
@@ -68,11 +70,24 @@
     <el-button type="primary" @click="addCate">确 定</el-button>
   </span>
     </el-dialog>
+
+    <!--  修改分类的对话框  -->
+    <el-dialog title="修改分类" :visible.sync="editCateDialogVisible" width="40%" @close="editCateDialogClosed">
+      <el-form :model="editCateForm" :rules="addCateFormRules" ref="editCateFormRef" label-width="100px">
+        <el-form-item label="分类名称">
+          <el-input v-model="editCateForm.cat_name"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="editCateDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="editCateInfo">确 定</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import {addCate, getCateList} from '../../network/cate'
+  import {addCate, editCateInfo, getCateList, removeCateById, showEditDialog} from '../../network/cate'
 
   export default {
     name: "Cate",
@@ -141,7 +156,11 @@
           children: 'children'
         },
         //选中的父级分类的id数组
-        selectedKeys: []
+        selectedKeys: [],
+        //分类信息对象
+        editCateForm: {},
+        //控制修改分类对话框显示与隐藏
+        editCateDialogVisible: false
       }
     },
     created() {
@@ -204,7 +223,7 @@
         this.$refs.addCateFormRef.validate(valid => {
           if (!valid) return
           addCate(this.addCateForm).then(res => {
-            console.log(res)
+            // console.log(res)
             if (res.meta.status !== 201) {
               return this.$message.error(res.meta.msg)
             }
@@ -220,6 +239,57 @@
         this.selectedKeys = []
         this.addCateForm.cat_level = 0
         this.addCateForm.cat_pid = 0
+      },
+      //修改对话框
+      showEditDialog(cat_id) {
+        showEditDialog(cat_id).then(res => {
+          // console.log(res)
+          if (res.meta.status !== 200) {
+            return this.$message.error(res.meta.msg)
+          }
+          this.editCateForm = res.data
+        })
+        this.editCateDialogVisible = !this.editCateDialogVisible
+      },
+      //监听修改用户对话框的关闭
+      editCateDialogClosed() {
+        this.$refs.editCateFormRef.resetFields()
+      },
+      //修改用户信息并提交
+      editCateInfo() {
+        this.$refs.editCateFormRef.validate(valid => {
+          if (!valid) return
+          //发起修改用户的网络请求
+          editCateInfo(this.editCateForm).then(res => {
+            // console.log(res)
+            if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
+            //关闭对话框
+            this.editCateDialogVisible = false
+            //刷新数据列表
+            this.getCateList()
+            this.$message.success(res.meta.msg)
+          })
+        })
+      },
+      //根据id删除对应分类
+      removeCateById(cat_id) {
+        this.$confirm('此操作将永久删除该分类, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(res => {
+          if (res !== 'confirm') {
+            return this.$message.info('已取消删除')
+          }
+          removeCateById(cat_id).then(res => {
+            // console.log(res)
+            if (res.meta.status !== 200) {
+              return this.$message.error(res.meta.msg)
+            }
+            this.$message.success(res.meta.msg)
+            this.getCateList()
+          })
+        }).catch(err => err)
       }
     }
   }

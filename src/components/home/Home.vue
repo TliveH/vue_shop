@@ -4,7 +4,7 @@
     <el-header>
       <div>
         <img src="../../assets/img/kangna1.jpg" alt="">
-        <span>电商后台管理系统</span>
+        <span>T电商后台管理系统</span>
       </div>
       <el-button type="info" @click="logout">退出</el-button>
     </el-header>

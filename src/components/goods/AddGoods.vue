@@ -254,7 +254,12 @@
           form.attr=this.addForm.attrs
           //发起请求添加商品
           addProduct(form).then(res=>{
-            console.log(res)
+            // console.log(res)
+            if(res.meta.status!=201){
+              return this.$message.error(res.meta.msg)
+            }
+            this.$message.success(res.meta.msg)
+            this.$router.push('/goods')
           })
         })
       }

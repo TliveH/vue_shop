@@ -28,13 +28,14 @@
         <el-table-column label="角色" prop="role_name"></el-table-column>
         <el-table-column label="状态" prop="mg_state">
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.mg_state" @change="userStateChanged(scope.row)">
+            <el-switch v-model="scope.row.mg_state" @change="userStateChanged(scope.row)" active-text="启用"
+                       inactive-text="停用">
             </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <!--      修改      -->
+            <!--      编辑      -->
             <el-tooltip effect="dark" content="编辑" placement="top" :enterable="false">
               <el-button type="primary" icon="el-icon-edit" size="mini"
                          @click="showEditDialog(scope.row.id)"></el-button>
